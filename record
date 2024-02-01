@@ -1,0 +1,123 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Player {
+    string nickname;
+    int age;
+    double score1;
+    double score2;
+};
+
+int main() {
+    const int MAX_PLAYERS = 5;
+    Player players[MAX_PLAYERS];
+    int numPlayers = 0;
+
+    int choice;
+    do {
+        cout << "=========================================================\n";
+        cout << "\t\t\t\tMENU" << endl;
+        cout << "=========================================================\n";
+        cout << "1. Add record\n";
+        cout << "2. View players records\n";
+        cout << "3. Compute for the average\n";
+        cout << "4. Show the player(s) who gets the max average\n";
+        cout << "5. Show the player(s) who gets the min average\n";
+        cout << "6. Exit\n";
+
+        cout << "Enter your choice (1-6): ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                if (numPlayers < MAX_PLAYERS) {
+                    cout << "Enter player nickname: ";
+                    cin >> players[numPlayers].nickname;
+                    cout << "Enter player age: ";
+                    cin >> players[numPlayers].age;
+                    cout << "Enter player's first score: ";
+                    cin >> players[numPlayers].score1;
+                    cout << "Enter player's second score: ";
+                    cin >> players[numPlayers].score2;
+                    numPlayers++;
+                    cout << "Record added successfully.\n";
+                } else {
+                    cout << "Maximum number of players reached.\n";
+                }
+                break;
+            case 2:
+                if (numPlayers == 0) {
+                    cout << "No records available.\n";
+                } else {
+                    cout << "Nickname\tAge\tScore 1\tScore 2\n";
+                    for (int i = 0; i < numPlayers; i++) {
+                        cout << players[i].nickname << "\t\t" << players[i].age << "\t" << players[i].score1 << "\t" << players[i].score2 << "\n";
+                    }
+                }
+                break;
+            case 3:
+                if (numPlayers == 0) {
+                    cout << "No records available.\n";
+                } else {
+                    cout << "Average for all players:\n";
+                    for (int i = 0; i < numPlayers; i++) {
+                        double average = (players[i].score1 + players[i].score2) / 2.0;
+                        cout << "Player " << players[i].nickname << ": " << average << "\n";
+                    }
+                }
+                break;
+            case 4:
+                if (numPlayers == 0) {
+                    cout << "No records available.\n";
+                } else {
+                    double maxAverage = -1.0;
+                    string maxPlayer;
+
+                    for (int i = 0; i < numPlayers; i++) {
+                        double average = (players[i].score1 + players[i].score2) / 2.0;
+
+                        if (average > maxAverage) {
+                            maxAverage = average;
+                            maxPlayer = players[i].nickname;
+                        } else if (average == maxAverage) {
+                            maxPlayer += ", " + players[i].nickname;
+                        }
+                    }
+
+                    cout << "Player(s) with the max average: " << maxPlayer << " with an average of " << maxAverage << "\n";
+                }
+                break;
+            case 5:
+                if (numPlayers == 0) {
+                    cout << "No records available.\n";
+                } else {
+                    double minAverage = 101.0;
+                    string minPlayer;
+
+                    for (int i = 0; i < numPlayers; i++) {
+                        double average = (players[i].score1 + players[i].score2) / 2.0;
+
+                        if (average < minAverage) {
+                            minAverage = average;
+                            minPlayer = players[i].nickname;
+                        } else if (average == minAverage) {
+                            minPlayer += ", " + players[i].nickname;
+                        }
+                    }
+
+                    cout << "Player(s) with the min average: " << minPlayer << " with an average of " << minAverage << "\n";
+                }
+                break;
+            case 6:
+                cout << "Exiting the program.\n";
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 6.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
